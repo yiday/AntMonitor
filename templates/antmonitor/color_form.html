@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/setcolor/" method="post">
+    {{ form.color }}
+    {% csrf_token %}
+    <input type="submit" value="提交">
+</form>
+current color:
+{{ color }}
+</body>
+</html>
