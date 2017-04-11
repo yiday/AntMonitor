@@ -4,6 +4,9 @@ from django.http import HttpResponseRedirect
 from .forms import ColorForm, UserForm, UserProfileForm
 
 
+class IndexView(View):
+    template_name = ''
+
 class RegisterView(View):
     user_form_class = UserForm
     profile_user_form_class = UserProfileForm
@@ -12,10 +15,18 @@ class RegisterView(View):
     def get(self, request, *args, **kwargs):
         uform = self.user_form_class()
         pform = self.profile_user_form_class()
-        return render(request, self.template_name, {'uform':uform, 'pform':pform})
+        return render(request, self.template_name, {'uform':uform,
+                                                    'pform':pform})
 
     def post(self, request, *args, **kwargs):
-        pass
+        uform = self.user_form_class(request.POST)
+        pform = self.profile_user_form_class(request.POST)
+        if uform.is_valid():
+            new_user = uform.save()
+            return HttpResponseRedirect("/index/")
+
+        return render(request, self.template_name, {'uform':uform,
+                                                    'pform':pform})
 
 class SuccessView(View):
     template_name = 'antmonitor/success.html'

@@ -1,12 +1,13 @@
 # -*- coding=utf-8 -*-
 from django import forms
 from profiles.models import User, UserProfile
+from django.contrib.auth.forms import UserCreationForm
 
 class ColorForm(forms.Form):
     color = forms.CharField(label=u'set color', max_length=10)
 
 
-class UserForm(forms.ModelForm):
+class UserForm(UserCreationForm):
     username = forms.CharField(max_length=20,
                                label=u"用户名",
                                widget=forms.TextInput(attrs={'placeholder':u"请输入用户名"}))
@@ -14,7 +15,7 @@ class UserForm(forms.ModelForm):
                                label=u"电子邮箱",
                                widget=forms.TextInput(attrs={'placeholder':u"请输入Email"}))
 
-    password = forms.CharField(max_length=50, label=u"密码",
+    password1 = forms.CharField(max_length=50, label=u"密码",
                                widget=forms.PasswordInput(attrs={"placeholder":u"请输入密码"})
                                )
     password2 = forms.CharField(max_length=50, label=u"确认密码",
@@ -22,7 +23,7 @@ class UserForm(forms.ModelForm):
                                )
     class Meta:
         model = User
-        fields = ["username", "email", "password"]
+        fields = ["username"]
 
 
 class UserProfileForm(forms.ModelForm):
